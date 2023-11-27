@@ -40,8 +40,31 @@ foreach ($csvData as $data) {
 print_r($result);
 */
 
+
+
+$mysqli = new mysqli("localhost","root",null,"cars");
+//check connection
+if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL " . $mysqli -> connect_errno;
+    exit();
+}
+
+echo "connected\n";
+
+
 $makers = getMakers($csvData);
 
 print_r($makers);
+
+
+
+foreach ($makers as $maker) {
+    $mysqli->query("INSERT INTO cars (name) VALUES ($maker)");
+    echo "$maker\n";
+}
+
+
+$mysqli->close();
+
 
 ?>
