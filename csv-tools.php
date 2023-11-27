@@ -16,4 +16,38 @@ function getCsvData($filename) {
     return $lines;
 }
 
+function getMakers($csvData)
+{
+    $header = $csvData[0];
+    $idxMaker = array_search('make', $header);
+    //$idxModel = array_search('model', $header);
+
+    $isHeader = true;
+
+   // $result = [];
+    $maker = '';
+   // $model = '';
+    foreach ($csvData as $data) {
+        if (!is_array($data)) {
+            continue;
+        }
+        if ($isHeader) 
+        {
+            $isHeader = false;
+            continue;    
+        }
+        if ($maker != $data[$idxMaker]) {
+            $maker = $data[$idxMaker];
+        }
+        if ($model != $data[$idxModel]) {
+            $model = $data[$idxModel];
+            $result[$maker][] = $model;
+        }
+    }
+    print_r($result);   
+}
+
+
+
+
 ?>
