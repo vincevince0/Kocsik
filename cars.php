@@ -1,6 +1,7 @@
 <?php
 
 require_once('csv-tools.php');
+require_once('db-tools.php');
 ini_set('memory_limit', '-1');
 
 $filename = "car-db.csv";
