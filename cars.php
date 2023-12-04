@@ -55,6 +55,30 @@ echo "connected\n";
 
 $makers = getMakers($csvData);
 
+$errors = [];
+foreach ($makers as $maker)
+{
+    $result = createMaker($mysqli, $maker);
+    if (!$result)
+    {
+        $errors = $maker;
+    }
+    echo "$maker\n";
+
+}
+
+
+$makers = getAllMakers($mysqli);
+$cnt = count($makers);
+echo "$cnt sor van;\n";
+echo $cnt . "sor van\n";
+echo sprintf("%d sor van\n", $cnt);
+
+
+
+
+
+
 print_r($makers);
 
 
