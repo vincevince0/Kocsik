@@ -1,5 +1,5 @@
 <?php
-use Exception;
+//use Exception;
 
 class MakersDbTool {
     const DBTABLE = 'makers';

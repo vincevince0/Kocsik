@@ -54,17 +54,17 @@ echo sprintf("%d sor van\n", $cnt);
 
 
 
-print_r($makers);
+print_r($allMakers);
 
 
-
+/*
 foreach ($makers as $maker) {
     $mysqli->query("INSERT INTO cars (name) VALUES ($maker)");
     echo "$maker\n";
 }
+*/
 
-
-$mysqli->close();
+//$mysqli->close();
 
 
 ?>
