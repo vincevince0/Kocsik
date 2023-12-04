@@ -16,7 +16,7 @@ function createMaker($mysqli, $maker)
 function updateMaker($mysqli, $data)
 {
     $makerName = $data['name'];
-    $result = $mysqli->query("UPDATE makers SET name={$data['name']}");
+    $result = $mysqli->query("UPDATE makers SET name=$makerName");
     
     if (!$result)
     {
