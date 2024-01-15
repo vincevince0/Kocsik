@@ -1,70 +1,70 @@
 <?php
+ini_set('memory_limit','-1');
+$array = [];
 
-require_once('csv-tools.php');
-require_once('db-tools.php');
-require_once('MakersDbTool.php');
-ini_set('memory_limit', '-1');
-
-$filename = "car-db.csv";
-$csvData = getCsvData($filename);
-if (empty($csvData)) {
-    echo 'A fájl nem található';
-    return false;
+$file = "car-db.csv";
+function getCsvData($file){
+    if(!file_exists($file)){
+        echo "$file nem található";
+        return false;
+    }
+    $csv = fopen($file, 'r');
+    while (!feof($csv)) {
+        $line = fgetcsv($csv);
+        $array[] = $line;
+    }
+    fclose($csv);
+    return $array ;    
 }
 
+$csvData = getCsvData($file);
+//print_r($csvData);
 
+//$sv = count($csvData);
+function getMakers($csvData){
+    $header = $csvData[0];
+    $makerKey = array_search('make',$header);
+    //$modelKey = array_search('model',$header);
 
-/*
+    $maker ="";
+    //$model = "";
+    $isHeader = true;
+    $makers = [];
+    //$result = [];
+
+    foreach ($csvData as $data) {
+        if (!is_array($data)){
+            continue;
+        }
+        if ($isHeader) {
+            $isHeader = false;
+            continue;
+        }
+        if ($maker != $data[$makerKey]) {
+            $maker = $data[$makerKey];
+            $makers[] = $maker;
+        }
+        /*
+        if ($model != $data[$modelKey]) {
+            $model = $data[$modelKey ];
+            $result[$maker][] = $model;
+        }
+        */
+    }
+    return $makers;
+}
+
 $mysqli = new mysqli("localhost","root",null,"cars");
-//check connection
-if ($mysqli->connect_errno) {
-    echo "Failed to connect to MySQL " . $mysqli -> connect_errno;
+
+//Check connection
+if($mysqli->connect_errno) {
+    echo "Failed to connect to MySql: " . $mysqli -> connect_error;
     exit();
 }
-
 echo "connected\n";
-*/
-
-$makersDbTool = new MakersDbTool();
-
 
 $makers = getMakers($csvData);
 
-$errors = [];
-foreach ($makers as $maker)
-{
-    $result = $makersDbTool->createMaker($maker);
-    if (!$result)
-    {
-        $errors[] = $maker;
-    }
-    echo "$maker\n";
+$result = insertMarkes($mysqli, $makers, true);
 
-}
-
-
-$allMakers = $makersDbTool->getAllMakers();
-$cnt = count($allMakers);
-echo "$cnt sor van;\n";
-echo $cnt . "sor van\n";
-echo sprintf("%d sor van\n", $cnt);
-
-
-
-
-
-
-print_r($allMakers);
-
-
-/*
-foreach ($makers as $maker) {
-    $mysqli->query("INSERT INTO cars (name) VALUES ($maker)");
-    echo "$maker\n";
-}
-*/
-
-//$mysqli->close();
-
-
-?>
+$mysqli->close();

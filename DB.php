@@ -4,31 +4,15 @@ class DB
 {
     protected $mysqli;
 
-    function __construct($host='localhost', $user = 'root', $password= null,  $database = 'cars')
+    function __construct($host = 'localhost', $user='root',$password = null, $database = 'cars')
     {
         $this->mysqli = mysqli_connect($host,$user,$password,$database);
-
-        if(!$this->mysqli)
-        {
-            die("connection failed: " . mysqli_connect_error());
+        if (!$this->mysqli) {
+            die("Connection failed: ". mysqli_connect_error());
         }
     }
-
-    function _destruct()
+    function __destruct()
     {
         $this->mysqli->close();
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-?>
